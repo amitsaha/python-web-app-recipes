@@ -2,8 +2,6 @@
 
 ## Custom Middleware
 
-`Middleware`, a.k.a "How do I do X for every request and do Y for every response"?
-
 ### WSGI middleware
 
 - http://wsgi.readthedocs.io/en/latest/libraries.html
@@ -23,17 +21,6 @@ Third-party packages
 
 Third-party packages
 
-### Flask
-
-- http://flask.pocoo.org/docs/0.11/patterns/deferredcallbacks/
-- Flask's `after_request()`, `before_request()` including `blueprint specific` methods
-- Example of implementing a middleware: http://steinn.org/post/flask-statsd/
-
-Third-party packages
-
-### Miscellaneous
-
-- 
 
 ## Telemetry
 
