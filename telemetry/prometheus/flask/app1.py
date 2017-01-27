@@ -1,10 +1,12 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 import prometheus_client
 from prometheus_client import start_http_server, Counter
 
 REQUEST_COUNT = Counter('request_count', 'App Request Count',
         ['app_name', 'method', 'endpoint', 'http_status'])
 app = Flask(__name__)
+
+CONTENT_TYPE_LATEST = str('text/plain; version=0.0.4; charset=utf-8')
 
 @app.after_request
 def increment_request_count(response):
@@ -17,7 +19,8 @@ def increment_request_count(response):
 # prometheus metrics
 @app.route('/metrics')
 def metrics():
-    return prometheus_client.generate_latest()
+    return Response(prometheus_client.generate_latest(),
+            mimetype=CONTENT_TYPE_LATEST)
 
 @app.route('/test')
 def test():
