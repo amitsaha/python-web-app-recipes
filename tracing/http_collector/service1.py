@@ -21,7 +21,7 @@ def http_transport(encoded_span):
 
 @zipkin_span(service_name='service1', span_name='service1_do_stuff')
 def do_stuff():
-    time.sleep(10)
+    time.sleep(5)
     return 'OK'
 
 @app.route('/service1/')

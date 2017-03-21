@@ -36,6 +36,7 @@ def index():
         sample_rate=100, #0.05, # Value between 0.0 and 100.0
     ):
         do_stuff()
+        time.sleep(10)
     return 'OK', 200
 
 if __name__ == '__main__':
