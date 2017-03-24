@@ -9,9 +9,11 @@ version: '2'
 services:
   # Run Elasticsearch instead of MySQL
   storage:
-    image: openzipkin/zipkin-elasticsearch
+    build: ./elasticsearch-docker
+    image: amitsaha/elasticsearch
     container_name: elasticsearch
-
+    volumes:
+        - /tmp/data:/data:z
   # Switch storage type to Elasticsearch
   zipkin:
     image: openzipkin/zipkin
