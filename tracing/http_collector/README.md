@@ -30,3 +30,12 @@ You need ``py_zipkin`` and ``flask`` installed:
 
 Go to ``localhost:9411`` and click on "Find Traces" after selecting "webapp" in the top left.
 
+Each request creates a trace:
+
+![One trace per request](traces.png)
+
+Each trace then shows the data about a single request:
+
+![Data for a single trace](trace1.png)
+
+
