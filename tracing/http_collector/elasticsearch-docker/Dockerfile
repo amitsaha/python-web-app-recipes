@@ -1,36 +1,35 @@
 #
-# Elasticsearch Dockerfile
+# Copyright 2015-2016 The OpenZipkin Authors
 #
-# https://github.com/dockerfile/elasticsearch
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+# in compliance with the License. You may obtain a copy of the License at
 #
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under the License
+# is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+# or implied. See the License for the specific language governing permissions and limitations under
+# the License.
+#
+FROM openzipkin/jre-full:1.8.0_112
+MAINTAINER OpenZipkin "http://zipkin.io/"
 
-# Pull base image.
-FROM dockerfile/java:openjdk-7-jre
+ENV ELASTICSEARCH_VERSION 5.0.1
 
-ENV ES_PKG_NAME elasticsearch-1.5.0
+WORKDIR /elasticsearch
 
-# Install Elasticsearch.
-RUN \
-  cd / && \
-  wget https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz && \
-  tar xvzf $ES_PKG_NAME.tar.gz && \
-  rm -f $ES_PKG_NAME.tar.gz && \
-  mv /$ES_PKG_NAME /elasticsearch
+# single layer to install elasticsearch and the user
+RUN curl -SL https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION.tar.gz| tar xz && \
+    mv elasticsearch-$ELASTICSEARCH_VERSION/* /elasticsearch/ && \
+    adduser -S elasticsearch && \
+    chown -R elasticsearch /elasticsearch
 
-# Define mountable directories.
-VOLUME ["/data"]
+# elasticsearch complains if run as root
+USER elasticsearch
 
-# Mount elasticsearch.yml config
-ADD config/elasticsearch.yml /elasticsearch/config/elasticsearch.yml
+COPY config ./config
 
-# Define working directory.
-WORKDIR /data
+EXPOSE 9200 9300
 
-# Define default command.
-CMD ["/elasticsearch/bin/elasticsearch"]
-
-# Expose ports.
-#   - 9200: HTTP
-#   - 9300: transport
-EXPOSE 9200
-EXPOSE 9300
+# our image doesn't have bash, so use sh instead, also remove JAVA_OPTS in favor of ES_JAVA_OPTS
+CMD JAVA_OPTS= sh /elasticsearch/bin/elasticsearch

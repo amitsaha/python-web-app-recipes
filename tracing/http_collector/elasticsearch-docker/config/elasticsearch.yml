@@ -1,3 +1,2 @@
-path:
-  data: /data/log
-  logs: /data/data
+network.host: 0.0.0.0
+discovery.zen.minimum_master_nodes: 1
