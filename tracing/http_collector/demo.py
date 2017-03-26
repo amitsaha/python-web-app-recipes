@@ -32,7 +32,7 @@ def index():
         service_name='webapp',
         span_name='index',
         transport_handler=http_transport,
-        port=42,
+        port=5000,
         sample_rate=100, #0.05, # Value between 0.0 and 100.0
     ):
         do_stuff()

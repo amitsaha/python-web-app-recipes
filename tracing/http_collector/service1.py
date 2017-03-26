@@ -35,9 +35,9 @@ def index():
             flags=request.headers['X-B3-Flags'],
             is_sampled=request.headers['X-B3-Sampled'],
         ),
-        span_name='index',
+        span_name='index_service1',
         transport_handler=http_transport,
-        port=42,
+        port=6000,
         sample_rate=100, #0.05, # Value between 0.0 and 100.0
     ):
         do_stuff()
